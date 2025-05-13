@@ -122,10 +122,11 @@ Response
 
 ## 📜 License
 
-MIT License © [siddiq0611]
+MIT License © siddiq0611
 
 
 ## 🙌 Acknowledgements
 
-- Thanks to [OpenAI](https://openai.com/) for the API  
-- Inspired by a love for storytelling, coding, and imagination.
+- Thanks to [OpenAI](https://openai.com/) for the API
+
+### Inspired by a love for storytelling, coding, and imagination.
