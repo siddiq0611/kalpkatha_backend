@@ -1,25 +1,12 @@
-<table border="0" style="border: none; border-collapse: collapse;">
-  <tr>
-    <td align="left" valign="top" width="480" padding="0" border="none" border-collapse="collapse">
-      <img
-        src="https://github.com/siddiq0611/git_repo/blob/main/kalpkatha.png"
-        alt="Kalpkatha Logo"
-        width="480"
-        align="center"
-      />
-    </td>
-    <td align="left" valign="top">
-      <h1 align="center">Kalpkatha</h1>
-      <h3>
-        This is a FastAPI-based backend service that generates creative stories using
-        OpenAI's GPT models. Provide a prompt, and the API will return an engaging,
-        structured tale with rich characters, world-building, and plot development.
-      </h3>
-    </td>
-  </tr>
-</table>
+# <img src="https://github.com/siddiq0611/git_repo/blob/main/logo.png" alt="Book Icon" width="32"/> Kalpkatha
+<h3> This is a FastAPI-based backend service that generates creative stories using OpenAI's GPT models. Provide a prompt, and the API will return an engaging, structured tale with rich characters, world-building, and plot development. </h3>
 
 
+<img src="https://github.com/siddiq0611/git_repo/blob/main/kalpkatha.png"
+     alt="Kalpkatha Logo"
+     width="720"
+     align="center"
+     />
 
 
 ## 🌐 Live API
