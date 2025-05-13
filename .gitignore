@@ -1,0 +1,34 @@
+# .gitignore
+
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# Environment files
+.env
+.env.local
+
+# Virtual environment
+env/
+
+# FastAPI server PID files
+*.pid
+
+# FastAPI app logs
+*.log
+
+# Python distribution files
+dist/
+build/
+*.egg-info/
+
+# .vscode (IDE settings)
+.vscode/
+
+
+# System-specific files
+.DS_Store
+Thumbs.db
