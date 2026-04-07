@@ -2,6 +2,6 @@ fastapi
 uvicorn
 pydantic
 pydantic-settings
-openai
+groq
 httpx
 python-dotenv
