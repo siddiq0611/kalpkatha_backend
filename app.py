@@ -1,109 +1,11 @@
-# """
-# FastAPI application for the story generation service.
-# """
-# import os
-# from fastapi import FastAPI, HTTPException, Depends
-# from fastapi.middleware.cors import CORSMiddleware
-# from pydantic import BaseModel, Field
-# from typing import Optional, Dict, Any
-
-# from story_writer import StoryGenerator
-# from config import get_settings, Settings
-# from openai import OpenAI
-# from contextlib import asynccontextmanager
-
-
-# class StoryRequest(BaseModel):
-#     prompt: str = Field(..., description="The story prompt from the user")
-
-
-# class StoryResponse(BaseModel):
-#     story: str = Field(..., description="The generated story")
-
-
-# @asynccontextmanager
-# async def lifespan(app: FastAPI):
-#     settings = get_settings()
-#     app.state.settings = settings
-#     try:
-#         app.state.openai_client = OpenAI(api_key=settings.openai_api_key)
-#     except TypeError as e:
-#         if "proxies" in str(e):
-#             app.state.openai_client = OpenAI(
-#                 api_key=settings.openai_api_key,
-#             )
-#         else:
-#             raise
-            
-#     app.state.story_generator = StoryGenerator(app.state.openai_client)
-    
-#     yield
-
-#     app.state.openai_client = None
-#     app.state.story_generator = None
-
-
-# # Initialize FastAPI app
-# app = FastAPI(
-#     title="Story Generator API",
-#     description="An API for generating creative stories using AI",
-#     version="1.0.0",
-#     lifespan=lifespan
-# )
-
-# # Add CORS middleware
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],  # Lock this down in production
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
-
-# # Dependency for settings
-# def get_app_settings():
-#     return get_settings()
-
-
-# @app.get("/health")
-# async def health_check():
-#     """Health check endpoint."""
-#     return {"status": "healthy"}
-
-
-# @app.post("/api/generate-story", response_model=StoryResponse)
-# async def generate_story(request: StoryRequest):
-#     try:
-#         result = app.state.story_generator.generate_story(
-#             user_prompt=request.prompt,
-#         )
-#         return result
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Story generation failed: {str(e)}")
-
-
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
-
-
-
-
-
-
-
-
-
-
-
 # ── backend/app.py ──
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Optional, List
 from contextlib import asynccontextmanager
-from openai import OpenAI, OpenAIError
+# from openai import OpenAI, OpenAIError
+from groq import Groq
 import uuid
 
 from config import get_settings
@@ -127,9 +29,12 @@ class StoryResponse(BaseModel):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     settings = get_settings()
-    app.state.openai = OpenAI(api_key=settings.openai_api_key)
+    # app.state.openai = OpenAI(api_key=settings.openai_api_key)
+    app.state.client = Groq(api_key=settings.groq_api_key)
+
     app.state.generator = StoryGenerator(
-        client=app.state.openai,
+        # client=app.state.openai,
+        client=app.state.client,
         model=settings.model_name,
         temperature=settings.default_temperature
     )
@@ -157,8 +62,8 @@ async def generate_story(request: StoryRequest):
             chapter_length=request.chapter_length
         )
         return StoryResponse(session_id=session_id, chapters=chapters)
-    except OpenAIError as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    # except OpenAIError as e:
+    #     raise HTTPException(status_code=500, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
 
@@ -173,7 +78,7 @@ async def continue_story(request: ContinueRequest):
         return StoryResponse(session_id=request.session_id, chapters=chapters)
     except KeyError:
         raise HTTPException(status_code=404, detail="Session not found")
-    except OpenAIError as e:
+    except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":

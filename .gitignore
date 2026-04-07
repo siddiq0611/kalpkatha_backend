@@ -32,3 +32,5 @@ build/
 # System-specific files
 .DS_Store
 Thumbs.db
+
+venv/
