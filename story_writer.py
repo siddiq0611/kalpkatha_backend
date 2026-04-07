@@ -3,7 +3,7 @@ import uuid
 from typing import List, Dict, Optional
 
 class StoryGenerator:
-    def __init__(self, client, model: str = "gpt-4o", temperature: float = 0.7):
+    def __init__(self, client, model: str = "llama-3.3-70b-versatile", temperature: float = 0.7):
         self.client = client
         self.model = model
         self.temperature = temperature
